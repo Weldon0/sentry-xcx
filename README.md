@@ -443,3 +443,13 @@ MIT
 
 欢迎提交 Issue 和 Pull Request！
 
+## 📦 仓库地址
+
+GitHub: [https://github.com/Weldon0/sentry-xcx](https://github.com/Weldon0/sentry-xcx)
+
+## 👤 作者
+
+**Weldon0**
+
+- GitHub: [@Weldon0](https://github.com/Weldon0)
+

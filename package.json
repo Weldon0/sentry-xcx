@@ -25,7 +25,7 @@
     "error-tracking",
     "monitoring"
   ],
-  "author": "Beikang",
+  "author": "Weldon0",
   "license": "MIT",
   "peerDependencies": {
     "sentry-mina": "*"
@@ -44,10 +44,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/weldon3/sentry-xcx.git"
+    "url": "https://github.com/Weldon0/sentry-xcx.git"
   },
   "bugs": {
-    "url": "https://github.com/weldon3/sentry-xcx/issues"
-  }
+    "url": "https://github.com/Weldon0/sentry-xcx/issues"
+  },
+  "homepage": "https://github.com/Weldon0/sentry-xcx#readme"
 }
 
