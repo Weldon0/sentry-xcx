@@ -86,9 +86,14 @@ class SentryXCX {
     if (typeof wx !== 'undefined' && wx.onUnhandledRejection) {
       wx.onUnhandledRejection((res: any) => {
         console.error('[SentryXCX] 未处理的 Promise rejection:', res);
-        this.captureException(
-          new Error(`未处理的 Promise rejection: ${res.reason}`)
-        );
+
+        // 使用规范化的错误处理
+        const errorMessage = res.reason
+          ? `未处理的 Promise rejection: ${typeof res.reason === 'object' ? this.safeStringify(res.reason) : res.reason}`
+          : '未处理的 Promise rejection';
+
+        this.captureException(res.reason || errorMessage);
+
         // 添加额外信息
         this.setExtra('unhandledRejection', {
           reason: res.reason,
@@ -194,6 +199,72 @@ class SentryXCX {
   }
 
   /**
+   * 规范化错误对象，避免 [object Object] 问题
+   * @param error 任意类型的错误
+   * @returns 规范化后的 Error 对象
+   */
+  private normalizeError(error: any): Error {
+    // 如果已经是 Error 实例，直接返回
+    if (error instanceof Error) {
+      return error;
+    }
+
+    // 如果是字符串，创建 Error 对象
+    if (typeof error === 'string') {
+      return new Error(error);
+    }
+
+    // 如果是对象，尝试序列化
+    if (typeof error === 'object' && error !== null) {
+      try {
+        // 尝试提取常见的错误信息字段
+        const message = error.message || error.errMsg || error.msg || error.error;
+
+        if (message) {
+          const err = new Error(String(message));
+          // 保留原始错误信息作为额外数据
+          (err as any).originalError = this.safeStringify(error);
+          return err;
+        }
+
+        // 如果没有明确的错误消息，序列化整个对象
+        const serialized = this.safeStringify(error);
+        const err = new Error(serialized);
+        (err as any).originalError = error;
+        return err;
+      } catch (e) {
+        return new Error(`无法序列化的错误对象: ${typeof error}`);
+      }
+    }
+
+    // 其他类型，转换为字符串
+    return new Error(String(error));
+  }
+
+  /**
+   * 安全地序列化对象为 JSON 字符串
+   * @param obj 要序列化的对象
+   * @returns JSON 字符串
+   */
+  private safeStringify(obj: any): string {
+    try {
+      // 处理循环引用
+      const seen = new WeakSet();
+      return JSON.stringify(obj, (key, value) => {
+        if (typeof value === 'object' && value !== null) {
+          if (seen.has(value)) {
+            return '[Circular]';
+          }
+          seen.add(value);
+        }
+        return value;
+      }, 2);
+    } catch (e) {
+      return String(obj);
+    }
+  }
+
+  /**
    * 捕获消息
    * @param message 消息内容
    * @param level 日志级别
@@ -206,12 +277,20 @@ class SentryXCX {
 
   /**
    * 捕获异常
-   * @param error 错误对象
+   * @param error 错误对象（支持 Error、string、object 等任意类型）
    */
-  captureException(error: Error | string): string {
+  captureException(error: any): string {
     if (!this.checkInitialized()) return '';
 
-    return Sentry.captureException(error);
+    // 规范化错误对象
+    const normalizedError = this.normalizeError(error);
+
+    // 如果原始错误是对象，添加额外的上下文信息
+    if (typeof error === 'object' && error !== null && !(error instanceof Error)) {
+      this.setExtra('originalErrorData', error);
+    }
+
+    return Sentry.captureException(normalizedError);
   }
 
   /**

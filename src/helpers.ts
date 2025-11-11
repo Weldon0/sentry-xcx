@@ -104,6 +104,37 @@ export function logBusiness(message: string, data?: Record<string, any>): void {
 }
 
 /**
+ * 辅助函数：捕获带有上下文信息的错误
+ * 自动处理对象类型的错误，避免 [object Object] 问题
+ * @param error 错误对象（支持任意类型）
+ * @param context 额外的上下文信息
+ * @example
+ * ```typescript
+ * // 捕获微信 API 错误
+ * wx.request({
+ *   url: 'https://api.example.com',
+ *   fail: (err) => {
+ *     captureError(err, { api: 'wx.request', url: 'https://api.example.com' });
+ *   }
+ * });
+ *
+ * // 捕获业务错误
+ * captureError({ code: 1001, message: '用户未登录' }, { scene: 'checkout' });
+ * ```
+ */
+export function captureError(error: any, context?: Record<string, any>): void {
+  // 添加上下文信息
+  if (context) {
+    Object.keys(context).forEach(key => {
+      sentryXCX.setExtra(key, context[key]);
+    });
+  }
+
+  // 捕获错误（会自动规范化）
+  sentryXCX.captureException(error);
+}
+
+/**
  * 装饰器：自动捕获异步方法异常
  */
 export function CatchAsync(target: any, propertyKey: string, descriptor: PropertyDescriptor) {

@@ -262,15 +262,37 @@ sentryXCX.captureMessage('用户完成了支付', 'info');
 
 #### 4. 捕获异常
 
-```javascript
-import sentryXCX from 'sentry-xcx';
+**✨ 自动处理对象错误，避免 `[object Object]` 问题**
 
+```javascript
+import sentryXCX, { captureError } from 'sentry-xcx';
+
+// 方式1：直接捕获（支持任意类型的错误）
 try {
-  // 可能出错的代码
   throw new Error('Something went wrong');
 } catch (error) {
   sentryXCX.captureException(error);
 }
+
+// 方式2：捕获微信 API 返回的对象错误
+wx.request({
+  url: 'https://api.example.com/data',
+  fail: (err) => {
+    // err 是对象：{ errMsg: "request:fail", errno: 600001 }
+    // 会自动转换为可读的错误信息，而不是 [object Object]
+    sentryXCX.captureException(err);
+  }
+});
+
+// 方式3：使用辅助函数，带上下文信息（推荐）
+captureError(
+  { code: 1001, message: '支付失败' },
+  {
+    scene: 'checkout',
+    orderId: '123456',
+    amount: 99.99
+  }
+);
 ```
 
 #### 5. 设置标签和上下文
@@ -371,6 +393,64 @@ import { logBusiness } from 'sentry-xcx';
 
 logBusiness('订单创建成功', { orderId: '123456' });
 ```
+
+### 智能错误捕获
+
+**✨ 自动处理对象错误，避免 `[object Object]` 问题**
+
+```javascript
+import { captureError } from 'sentry-xcx';
+
+// 场景1：捕获微信 API 错误
+wx.request({
+  url: 'https://api.example.com/data',
+  fail: (err) => {
+    // err 通常是对象：{ errMsg: "request:fail timeout", errno: 600001 }
+    // 自动提取错误信息，不会显示 [object Object]
+    captureError(err, {
+      api: 'wx.request',
+      url: 'https://api.example.com/data'
+    });
+  }
+});
+
+// 场景2：捕获业务错误对象
+const handlePayment = async () => {
+  try {
+    const result = await paymentAPI();
+    if (result.code !== 0) {
+      // 上报业务错误，带上下文
+      captureError(result, {
+        scene: 'payment',
+        userId: getCurrentUserId(),
+        amount: 99.99
+      });
+    }
+  } catch (error) {
+    captureError(error, { scene: 'payment' });
+  }
+};
+
+// 场景3：捕获复杂对象错误
+captureError(
+  {
+    code: 'NETWORK_ERROR',
+    message: '网络请求失败',
+    details: { timeout: 5000, retries: 3 }
+  },
+  {
+    page: 'checkout',
+    timestamp: Date.now()
+  }
+);
+```
+
+**优势：**
+- ✅ 自动识别并提取错误信息（支持 `message`、`errMsg`、`msg`、`error` 等字段）
+- ✅ 智能序列化对象，避免 `[object Object]`
+- ✅ 处理循环引用，防止序列化失败
+- ✅ 保留原始错误对象作为额外数据
+- ✅ 支持添加上下文信息，便于问题定位
 
 ---
 
