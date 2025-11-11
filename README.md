@@ -238,7 +238,7 @@ sentryXCX.clearUser();
 #### 2. 使用辅助函数设置微信用户信息
 
 ```javascript
-import { setUserFromWechat } from 'sentry-xcx';
+import { setUserFromWechat, clearUserInfo } from 'sentry-xcx';
 
 // 从微信用户信息自动设置
 setUserFromWechat({
@@ -247,6 +247,9 @@ setUserFromWechat({
   pure_phone_number: '138****0000',
   openid: 'wx-openid',
 });
+
+// 退出登录时清空用户信息
+clearUserInfo();
 ```
 
 #### 3. 捕获消息
@@ -311,6 +314,31 @@ sentryXCX.addBreadcrumb({
 ---
 
 ## 🎨 辅助函数
+
+### 用户信息管理
+
+#### 设置微信用户信息
+
+```javascript
+import { setUserFromWechat } from 'sentry-xcx';
+
+// 登录成功后，从微信用户信息自动设置
+setUserFromWechat({
+  basic_uid: 'user-id',
+  nickname: 'username',
+  pure_phone_number: '138****0000',
+  openid: 'wx-openid',
+});
+```
+
+#### 清除用户信息
+
+```javascript
+import { clearUserInfo } from 'sentry-xcx';
+
+// 用户退出登录时清空用户信息
+clearUserInfo();
+```
 
 ### 页面访问追踪
 
@@ -468,7 +496,7 @@ App(
 ### 完整的 Page 配置
 
 ```javascript
-import sentryXCX, { wrapPage, logUserAction } from 'sentry-xcx';
+import sentryXCX, { wrapPage, logUserAction, setUserFromWechat, clearUserInfo } from 'sentry-xcx';
 
 Page(
   wrapPage({
@@ -494,10 +522,18 @@ Page(
     },
 
     onUserLogin(userInfo) {
-      // 设置用户信息
+      // 方式1：直接设置用户信息
       sentryXCX.setUser({
         id: userInfo.id,
         username: userInfo.nickname,
+      });
+
+      // 方式2：使用辅助函数从微信用户信息设置（推荐）
+      setUserFromWechat({
+        basic_uid: userInfo.id,
+        nickname: userInfo.nickname,
+        pure_phone_number: userInfo.phone,
+        openid: userInfo.openid,
       });
 
       // 记录用户行为
@@ -505,8 +541,13 @@ Page(
     },
 
     onUserLogout() {
-      // 清空用户信息
+      // 方式1：使用核心方法清空用户信息
       sentryXCX.clearUser();
+
+      // 方式2：使用辅助函数清空用户信息（推荐）
+      clearUserInfo();
+
+      // 记录用户行为
       logUserAction('用户退出登录');
     },
   })

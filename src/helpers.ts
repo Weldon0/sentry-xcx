@@ -23,6 +23,19 @@ export function setUserFromWechat(userWechat: {
 }
 
 /**
+ * 辅助函数：清除用户信息
+ * 用于用户退出登录时清空 Sentry 中记录的用户信息
+ * @example
+ * ```typescript
+ * // 用户退出登录时调用
+ * clearUserInfo();
+ * ```
+ */
+export function clearUserInfo(): void {
+  sentryXCX.clearUser();
+}
+
+/**
  * 辅助函数：记录页面访问
  * @param pagePath 页面路径
  * @param pageParams 页面参数
