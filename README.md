@@ -1,28 +1,93 @@
-# sentry-xcx
+<div align="center">
+  <h1>Sentry XCX</h1>
+  <p>🚀 专为微信小程序设计的企业级 Sentry SDK 封装库</p>
 
-> 🚀 专为微信小程序设计的 Sentry SDK 封装库，提供更简洁的 API 和更强大的功能
+  [![npm version](https://img.shields.io/npm/v/sentry-xcx.svg?style=flat-square)](https://www.npmjs.com/package/sentry-xcx)
+  [![npm downloads](https://img.shields.io/npm/dm/sentry-xcx.svg?style=flat-square)](https://www.npmjs.com/package/sentry-xcx)
+  [![license](https://img.shields.io/npm/l/sentry-xcx.svg?style=flat-square)](https://github.com/Weldon0/sentry-xcx/blob/main/LICENSE)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/Weldon0/sentry-xcx/pulls)
+
+  <p>
+    <a href="#特性">特性</a> •
+    <a href="#安装">安装</a> •
+    <a href="#快速开始">快速开始</a> •
+    <a href="#api-文档">API 文档</a> •
+    <a href="#示例">示例</a>
+  </p>
+</div>
+
+---
+
+## 📖 简介
+
+**Sentry XCX** 是一个专为微信小程序打造的 Sentry SDK 增强封装库，提供了更简洁的 API、更强大的功能和更完善的类型支持。它能够帮助开发者快速集成错误监控、性能追踪和用户行为分析，让小程序的质量监控变得简单高效。
+
+### 为什么选择 Sentry XCX？
+
+- 🎯 **专为小程序优化** - 深度适配微信小程序环境，完美支持小程序生命周期
+- 🛡️ **企业级可靠性** - 经过生产环境验证，服务于多个大型小程序项目
+- 📦 **零配置开箱即用** - 简化繁琐的配置流程，一行代码完成初始化
+- 🔧 **高度可定制** - 提供丰富的配置选项和钩子函数，满足各种业务场景
+- 💪 **完整类型支持** - 100% TypeScript 编写，提供完整的类型定义和智能提示
+- 🎨 **丰富的辅助工具** - 内置多种辅助函数和装饰器，简化日常开发
 
 ## ✨ 特性
 
-- 📦 **开箱即用**：简化配置，一行代码完成初始化
-- 🎯 **类型安全**：完整的 TypeScript 类型定义
-- 🔧 **灵活配置**：支持多种配置选项和钩子函数
-- 🎨 **辅助函数**：提供丰富的辅助函数，简化日常使用
-- 🔄 **自动包装**：支持自动捕获页面和 App 生命周期异常
-- 📊 **面包屑追踪**：自动记录用户行为轨迹
-- 🎭 **装饰器支持**：使用装饰器自动捕获方法异常
+### 核心功能
+
+| 功能 | 说明 | 状态 |
+|------|------|------|
+| 🚨 **异常捕获** | 自动捕获未处理的异常和 Promise rejection | ✅ |
+| 📊 **面包屑追踪** | 自动记录用户行为轨迹，还原问题现场 | ✅ |
+| 🔄 **生命周期监控** | 自动包装 App 和 Page 生命周期 | ✅ |
+| 🌐 **网络请求监控** | 自动记录网络请求和响应信息 | ✅ |
+| 👤 **用户信息追踪** | 支持设置和追踪用户信息 | ✅ |
+| 🎯 **自定义事件** | 支持自定义消息和事件上报 | ✅ |
+| 🎭 **装饰器支持** | 提供装饰器自动捕获方法异常 | ✅ |
+| 🔧 **灵活配置** | 丰富的配置选项和钩子函数 | ✅ |
+| 💪 **TypeScript** | 完整的类型定义和智能提示 | ✅ |
+
+### 技术特点
+
+- ✅ **轻量级** - 打包后体积小，不影响小程序性能
+- ✅ **无侵入** - 不改变原有代码结构，可随时移除
+- ✅ **高性能** - 异步上报，不阻塞主线程
+- ✅ **易调试** - 详细的日志输出，方便问题排查
+- ✅ **易扩展** - 模块化设计，支持自定义扩展
+
+---
 
 ## 📦 安装
+
+### 使用 npm
 
 ```bash
 npm install sentry-xcx sentry-mina --save
 ```
 
-或使用 yarn：
+### 使用 yarn
+
+```bash
+npm install sentry-xcx sentry-mina --save
+```
 
 ```bash
 yarn add sentry-xcx sentry-mina
 ```
+
+### 使用 pnpm
+
+```bash
+pnpm add sentry-xcx sentry-mina
+```
+
+### 依赖说明
+
+- **sentry-xcx** - 本封装库，提供简化的 API 和增强功能
+- **sentry-mina** - Sentry 官方微信小程序 SDK，作为底层依赖
+
+---
 
 ## 🚀 快速开始
 
@@ -84,9 +149,13 @@ Page(
 );
 ```
 
-## 📖 详细配置
+---
 
-### 初始化配置项
+## 📖 API 文档
+
+### 初始化配置
+
+完整的配置选项说明：
 
 ```typescript
 sentryXCX.init({
@@ -152,9 +221,9 @@ sentryXCX.init({
 });
 ```
 
-## 🎯 核心 API
+### 核心 API 方法
 
-### 设置用户信息
+#### 1. 设置用户信息
 
 ```javascript
 import sentryXCX from 'sentry-xcx';
@@ -171,7 +240,7 @@ sentryXCX.setUser({
 sentryXCX.clearUser();
 ```
 
-### 使用辅助函数设置微信用户信息
+#### 2. 使用辅助函数设置微信用户信息
 
 ```javascript
 import { setUserFromWechat } from 'sentry-xcx';
@@ -185,7 +254,7 @@ setUserFromWechat({
 });
 ```
 
-### 捕获消息
+#### 3. 捕获消息
 
 ```javascript
 import sentryXCX from 'sentry-xcx';
@@ -193,7 +262,7 @@ import sentryXCX from 'sentry-xcx';
 sentryXCX.captureMessage('用户完成了支付', 'info');
 ```
 
-### 捕获异常
+#### 4. 捕获异常
 
 ```javascript
 import sentryXCX from 'sentry-xcx';
@@ -206,7 +275,7 @@ try {
 }
 ```
 
-### 设置标签和上下文
+#### 5. 设置标签和上下文
 
 ```javascript
 import sentryXCX from 'sentry-xcx';
@@ -230,7 +299,7 @@ sentryXCX.setContext('order', {
 sentryXCX.setExtra('debug_info', { foo: 'bar' });
 ```
 
-### 添加面包屑
+#### 6. 添加面包屑
 
 ```javascript
 import sentryXCX from 'sentry-xcx';
@@ -244,9 +313,11 @@ sentryXCX.addBreadcrumb({
 });
 ```
 
+---
+
 ## 🎨 辅助函数
 
-### 记录页面访问
+### 页面访问追踪
 
 ```javascript
 import { logPageView } from 'sentry-xcx';
@@ -254,7 +325,7 @@ import { logPageView } from 'sentry-xcx';
 logPageView('/pages/index/index', { from: 'share' });
 ```
 
-### 记录网络请求
+### 网络请求监控
 
 ```javascript
 import { logRequest } from 'sentry-xcx';
@@ -262,7 +333,7 @@ import { logRequest } from 'sentry-xcx';
 logRequest('https://api.example.com/users', 'GET', 200, 150);
 ```
 
-### 记录用户行为
+### 用户行为记录
 
 ```javascript
 import { logUserAction } from 'sentry-xcx';
@@ -270,7 +341,7 @@ import { logUserAction } from 'sentry-xcx';
 logUserAction('点击购买按钮', { productId: '123' });
 ```
 
-### 记录业务日志
+### 业务日志记录
 
 ```javascript
 import { logBusiness } from 'sentry-xcx';
@@ -278,9 +349,15 @@ import { logBusiness } from 'sentry-xcx';
 logBusiness('订单创建成功', { orderId: '123456' });
 ```
 
-## 🔄 函数包装器
+---
 
-### 包装异步函数
+## 🔄 高级功能
+
+### 函数包装器
+
+自动捕获函数执行过程中的异常：
+
+#### 异步函数包装
 
 ```javascript
 import sentryXCX from 'sentry-xcx';
@@ -294,7 +371,7 @@ const fetchData = sentryXCX.wrapAsync(async () => {
 fetchData();
 ```
 
-### 包装同步函数
+#### 同步函数包装
 
 ```javascript
 import sentryXCX from 'sentry-xcx';
@@ -308,7 +385,9 @@ const processData = sentryXCX.wrapSync((data) => {
 processData([1, 2, 3]);
 ```
 
-## 🎭 装饰器（TypeScript）
+### 装饰器支持（TypeScript）
+
+使用装饰器优雅地处理异常：
 
 ```typescript
 import { CatchAsync, CatchSync } from 'sentry-xcx';
@@ -329,9 +408,11 @@ class MyService {
 }
 ```
 
+---
+
 ## 🌍 环境配置
 
-### 开发环境禁用 Sentry
+### 多环境支持
 
 ```javascript
 sentryXCX.init({
@@ -352,9 +433,11 @@ sentryXCX.init({
 });
 ```
 
-## 📝 完整示例
+---
 
-### app.js
+## 📝 示例
+
+### 完整的 App 配置
 
 ```javascript
 import sentryXCX, { wrapApp } from 'sentry-xcx';
@@ -387,7 +470,7 @@ App(
 );
 ```
 
-### pages/index/index.js
+### 完整的 Page 配置
 
 ```javascript
 import sentryXCX, { wrapPage, logUserAction } from 'sentry-xcx';
@@ -435,21 +518,82 @@ Page(
 );
 ```
 
-## 📄 License
+---
 
-MIT
+## 🤝 贡献指南
 
-## 🤝 贡献
+我们欢迎所有形式的贡献！无论是报告 Bug、提出新功能建议，还是提交代码改进。
 
-欢迎提交 Issue 和 Pull Request！
+### 如何贡献
 
-## 📦 仓库地址
+1. Fork 本仓库
+2. 创建您的特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启一个 Pull Request
 
-GitHub: [https://github.com/Weldon0/sentry-xcx](https://github.com/Weldon0/sentry-xcx)
+### 开发指南
+
+```bash
+# 克隆项目
+git clone https://github.com/Weldon0/sentry-xcx.git
+
+# 安装依赖
+npm install
+
+# 开发模式（监听文件变化）
+npm run dev
+
+# 构建
+npm run build
+
+# 代码检查
+npm run lint
+
+# 代码格式化
+npm run format
+```
+
+---
+
+## 📄 许可证
+
+本项目采用 [MIT](LICENSE) 许可证。
+
+---
+
+## 🔗 相关链接
+
+- **GitHub 仓库**: [https://github.com/Weldon0/sentry-xcx](https://github.com/Weldon0/sentry-xcx)
+- **问题反馈**: [https://github.com/Weldon0/sentry-xcx/issues](https://github.com/Weldon0/sentry-xcx/issues)
+- **更新日志**: [CHANGELOG.md](CHANGELOG.md)
+- **Sentry 官方文档**: [https://docs.sentry.io/](https://docs.sentry.io/)
+- **微信小程序文档**: [https://developers.weixin.qq.com/miniprogram/dev/framework/](https://developers.weixin.qq.com/miniprogram/dev/framework/)
+
+---
 
 ## 👤 作者
 
 **Weldon0**
 
 - GitHub: [@Weldon0](https://github.com/Weldon0)
+
+---
+
+## ⭐ Star History
+
+如果这个项目对您有帮助，请给我们一个 Star ⭐️
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Weldon0/sentry-xcx&type=Date)](https://star-history.com/#Weldon0/sentry-xcx&Date)
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by <a href="https://github.com/Weldon0">Weldon0</a></p>
+  <p>
+    <a href="https://github.com/Weldon0/sentry-xcx">⭐ Star</a> •
+    <a href="https://github.com/Weldon0/sentry-xcx/issues">🐛 Report Bug</a> •
+    <a href="https://github.com/Weldon0/sentry-xcx/issues">✨ Request Feature</a>
+  </p>
+</div>
 
