@@ -69,11 +69,34 @@ class SentryXCX {
       this.setTags(config.tags);
     }
 
+    // 监听未处理的 Promise rejection
+    this.setupUnhandledRejectionHandler();
+
     this.initialized = true;
     console.log('[SentryXCX] Sentry 初始化成功', {
       environment: config.environment,
       release: config.release,
     });
+  }
+
+  /**
+   * 设置未处理的 Promise rejection 监听器
+   */
+  private setupUnhandledRejectionHandler(): void {
+    if (typeof wx !== 'undefined' && wx.onUnhandledRejection) {
+      wx.onUnhandledRejection((res: any) => {
+        console.error('[SentryXCX] 未处理的 Promise rejection:', res);
+        this.captureException(
+          new Error(`未处理的 Promise rejection: ${res.reason}`)
+        );
+        // 添加额外信息
+        this.setExtra('unhandledRejection', {
+          reason: res.reason,
+          promise: res.promise,
+        });
+      });
+      console.log('[SentryXCX] 已设置未处理的 Promise rejection 监听器');
+    }
   }
 
   /**
