@@ -63,29 +63,24 @@
 ### 使用 npm
 
 ```bash
-npm install sentry-xcx sentry-mina --save
+npm install sentry-xcx --save
 ```
 
 ### 使用 yarn
 
 ```bash
-npm install sentry-xcx sentry-mina --save
-```
-
-```bash
-yarn add sentry-xcx sentry-mina
+yarn add sentry-xcx
 ```
 
 ### 使用 pnpm
 
 ```bash
-pnpm add sentry-xcx sentry-mina
+pnpm add sentry-xcx
 ```
 
-### 依赖说明
+### 说明
 
-- **sentry-xcx** - 本封装库，提供简化的 API 和增强功能
-- **sentry-mina** - Sentry 官方微信小程序 SDK，作为底层依赖
+`sentry-xcx` 已经内置了 `sentry-mina` 依赖，**无需单独安装**，开箱即用！
 
 ---
 

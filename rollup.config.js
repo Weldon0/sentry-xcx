@@ -17,9 +17,11 @@ export default {
       sourcemap: true,
     },
   ],
-  external: ['sentry-mina'],
   plugins: [
-    resolve(),
+    resolve({
+      // 将 sentry-mina 打包进来
+      browser: true,
+    }),
     commonjs(),
     typescript({
       tsconfig: './tsconfig.json',

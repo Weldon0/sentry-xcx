@@ -27,8 +27,8 @@
   ],
   "author": "Weldon0",
   "license": "MIT",
-  "peerDependencies": {
-    "sentry-mina": "*"
+  "dependencies": {
+    "sentry-mina": "^0.4.7"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
