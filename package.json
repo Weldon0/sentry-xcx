@@ -1,0 +1,53 @@
+{
+  "name": "sentry-xcx",
+  "version": "1.0.1",
+  "description": "Sentry SDK wrapper for WeChat Mini Programs with enhanced features and simplified usage",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src --ext .js,.ts",
+    "format": "prettier --write \"src/**/*.{js,ts,json}\""
+  },
+  "keywords": [
+    "sentry",
+    "wechat",
+    "miniprogram",
+    "xcx",
+    "error-tracking",
+    "monitoring"
+  ],
+  "author": "Beikang",
+  "license": "MIT",
+  "peerDependencies": {
+    "sentry-mina": "*"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/node": "^20.10.0",
+    "eslint": "^8.55.0",
+    "miniprogram-api-typings": "^3.12.2",
+    "prettier": "^3.1.0",
+    "rollup": "^4.9.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/weldon3/sentry-xcx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/weldon3/sentry-xcx/issues"
+  }
+}
+

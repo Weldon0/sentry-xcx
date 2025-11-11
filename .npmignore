@@ -1,0 +1,22 @@
+# Source files
+src/
+
+# Config files
+.eslintrc.js
+.prettierrc
+rollup.config.js
+tsconfig.json
+
+# Development
+examples/
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Test
+coverage/
+*.test.js
+*.spec.js
+
